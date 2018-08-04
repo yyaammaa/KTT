@@ -1,16 +1,39 @@
 package com.yyaammaa.ktt
 
+import android.content.Context
 import android.os.Bundle
+import android.os.PowerManager
 import android.support.v7.app.AppCompatActivity
+import android.view.WindowManager
 import android.widget.Button
 
 class MainActivity : AppCompatActivity() {
+
+    companion object {
+        private const val TAG = "MainActivity"
+    }
+
+    private lateinit var wakeLock: PowerManager.WakeLock
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         initView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val pm: PowerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
+        wakeLock = pm.newWakeLock(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, TAG)
+        wakeLock.acquire(10 * 60 * 1000L /*10 minutes*/)
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        wakeLock.release()
     }
 
     private fun initView() {
