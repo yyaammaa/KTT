@@ -61,5 +61,10 @@ class MainActivity : AppCompatActivity() {
         button120.setOnClickListener {
             startActivity(TimerActivity.createIntent(this, 120))
         }
+
+        val button180: Button = findViewById(R.id.act_main_button_180)
+        button180.setOnClickListener {
+            startActivity(TimerActivity.createIntent(this, 180))
+        }
     }
 }
